@@ -1,33 +1,37 @@
-name: Birthday Reminder Bot
+#name: Birthday Reminder Bot
 
-on:
-  schedule:
-    # Run daily at 6:30am Lagos time (UTC+1)
-    - cron: "00 4 * * *"   # 4:00 UTC = 5:00 Lagos
-  workflow_dispatch:
+#on:
+#  schedule:
+#    # Run daily at 6:30am Lagos time (UTC+1)
+#    - cron: "00 4 * * *"   # 4:00 UTC = 5:00 Lagos
+#  workflow_dispatch:
+#
+#jobs:
+#  run-bot:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#     - name: Checkout repository
+#       uses: actions/checkout@v3
+#
+#      - name: Set up Python
+#        uses: actions/setup-python@v4
+#        with:
+#         python-version: '3.11'
+#         cache: 'pip'
+#
+#      - name: Install dependencies
+#        run: pip install -r requirements.txt
+#
+#      - name: Run birthday bot
+#        env:
+#          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+#          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+#          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+#          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+#          NOTIFY_EMAILS: ${{ secrets.NOTIFY_EMAILS }}
+#          BIRTHDAY_CALENDAR_ID: ${{ secrets.BIRTHDAY_CALENDAR_ID}}
+#          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+#          
+#        run: python main.py
 
-jobs:
-  run-bot:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run birthday bot
-        env:
-          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
-          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-        run: python main.py
