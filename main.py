@@ -14,7 +14,11 @@ from googleapiclient.http import BatchHttpRequest
 
 
 # ===== FIXED NOTIFY EMAILS =====
-NOTIFY_EMAILS = os.environ.get("NOTIFY_EMAILS", "").split(",")
+NOTIFY_EMAILS = [email.strip()
+                 for email in os.environ.get("NOTIFY_EMAILS", "").split(",")
+                 if email.strip()
+                ]
+
 
 # ===== CONFIG =====
 EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
