@@ -19,7 +19,6 @@ NOTIFY_EMAILS = [email.strip()
                  if email.strip()
                 ]
 
-
 # ===== CONFIG =====
 EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
 EMAIL_APP_PASSWORD = os.environ.get("EMAIL_APP_PASSWORD")
@@ -62,20 +61,40 @@ letter_templates = [
     for i in range(1, 4)
 ]
 
+# ======== Verify Email ========= #
+def is_valid_email(email):
+    if pd.isna(email):
+        return False
+    
+    email = str(email).strip()
+    
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(pattern, email)
+
+
 # ===== EMAIL HELPER =====
 def send_email(connection, subject, body, to_email, from_email=EMAIL_ADDRESS, from_name="TACSFONOAU Publicity Team"):
-    msg = MIMEMultipart("alternative")
-    msg["From"] = f"{from_name} <{from_email}>"
-    msg["To"] = to_email
-    msg["Subject"] = subject
-    msg["Auto-Submitted"] = "auto-generated"
+    try:
+        if not is_valid_email(to_email):
+            print(f"Skipping Invalid email: {to_email}!")
+            return
 
-    html_body = body.replace("\n", "<br>")
+        msg = MIMEMultipart("alternative")
+        msg["From"] = f"{from_name} <{from_email}>"
+        msg["To"] = to_email
+        msg["Subject"] = subject
+        msg["Auto-Submitted"] = "auto-generated"
 
-    msg.attach(MIMEText(body, "plain", "utf-8"))
-    msg.attach(MIMEText(f"<html><body>{html_body}</body></html>", "html", "utf-8"))
+        html_body = body.replace("\n", "<br>")
 
-    connection.sendmail(from_email, to_email, msg.as_string())
+        msg.attach(MIMEText(body, "plain", "utf-8"))
+        msg.attach(MIMEText(f"<html><body>{html_body}</body></html>", "html", "utf-8"))
+
+        connection.sendmail(from_email, to_email, msg.as_string())
+        print(f"Email sent to {to_email}")
+    except Exception as e:
+        print(f"failed to send email to {to_email}: {e}")
+
 
 def generate_event_id(firstname, lastname, date):
     # 1. Create a raw string (removed hyphens and "birthday" prefix to keep it short)
